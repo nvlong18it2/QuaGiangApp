@@ -1,29 +1,33 @@
 import React, { useState, useEffect } from 'react';
-import {View,Alert, Button, Text, StyleSheet,RefreshControl, TouchableOpacity, LayoutAnimation, FlatList, Image, Linking, Modal} from 'react-native';
+import {View, Alert, Button, Text, StyleSheet,RefreshControl, TouchableOpacity, LayoutAnimation, FlatList, Image, Linking, Modal} from 'react-native';
 import moment from 'moment'
 import {Ionicons} from "@expo/vector-icons";
 import { CheckBox } from 'react-native-elements'
+import DialogInput from 'react-native-dialog-input';
 require("firebase/firestore");
 import Fire from '../Fire'
 import firebase from '../config'
 const database = firebase.firestore()
+
 function MoreScreen({route, navigation}){
+    
     const { post } = route.params;
     const [noteCus, setNoteCus] = useState()
     const [isVisible, setIsVisible] = useState(false)
-    function handleBook(){
+    function handleBook(input){
+         
         database.collection("users").doc(post.uid).update({
-            cusUid: Fire.shared.uid 
+            cusUid: Fire.shared.uid,
+            noteCus : input
          })
          database.collection("users").doc(Fire.shared.uid).update({
             yourBooked: post.uid 
          })
+         setIsVisible(false)
          Alert.alert('Book Done!')
-         navigation.goBack()
+        navigation.goBack()
     }
-    function Book(){
-        setIsVisible(true)
-    }
+   
     return(
         
         <View  style= {styles.feedItem}      onPress={() => navigation.navigate('More', {post: post})}
@@ -56,15 +60,15 @@ function MoreScreen({route, navigation}){
             </View>
             
            </View>
-           <Text style={styles.post}><Ionicons name="md-arrow-round-forward" size={25} color="#454D65" />  {post.from}</Text>
+                <Text style={styles.post}><Ionicons name="md-arrow-round-forward" size={25} color="#454D65" />  {post.from}</Text>
                 <Text style={styles.post}><Ionicons name="md-arrow-round-forward" size={25} color="#454D65" />  {post.to} </Text>
             <View style={{justifyContent: 'space-around', flexDirection:"row"}}>
                 <Text style={{fontSize: 20 }}><Ionicons name="ios-calendar" size={27} color="#454D65"  />{post.date}</Text>
                 <Text style={{fontSize: 20}}><Ionicons name="ios-clock" size={27} color="#454D65"  />{post.time}</Text>
             </View>
 
-            <Text style={{fontSize: 20}} >Money: {post.money}</Text>
-            <Text style={{fontSize: 20}} >Note: {post.note}</Text>
+            <Text  style={styles.post} >Money: {post.money}</Text>
+            <Text  style={styles.post} >Note: {post.note}</Text>
            <Image source={{uri: post.image}} style={styles.postImage} resizeMode="cover"></Image>
            <View style={{flexDirection:"row", justifyContent: 'space-around'}}>
                 <TouchableOpacity onPress={()=>Linking.openURL(`tel:${post.phone}`)}>
@@ -75,10 +79,16 @@ function MoreScreen({route, navigation}){
                 </TouchableOpacity>
                 
             </View>
-            <TouchableOpacity  style = {styles.button} onPress={()=>handleBook()}>
+            <TouchableOpacity  style = {styles.button} onPress={()=> setIsVisible(true)}>
                <Text style={{fontSize: 30}}>Book Now</Text>
                 </TouchableOpacity>
-           
+                <DialogInput isDialogVisible={isVisible}
+                     title={"Confirm Book"}
+                     message={"Write some note"}
+                     hintInput ={""}
+                     submitInput={ (input) => { handleBook(input)}  }
+                     closeDialog={ () =>setIsVisible(false)}>
+              </DialogInput>
              
        
       </View>
@@ -119,6 +129,7 @@ const styles = StyleSheet.create({
     post:{
         marginTop: 10,
         fontSize: 23,
+        marginLeft: 20
     },
     postImage:{
         width: undefined,
@@ -134,7 +145,7 @@ const styles = StyleSheet.create({
         alignItems: "center",
         height:52,
         justifyContent: "center",
-        marginTop: 20
+        marginTop: 0
     }
   });
 export default MoreScreen;
