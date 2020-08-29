@@ -18,9 +18,10 @@ function MoreScreen({route, navigation}){
          
         database.collection("users").doc(post.uid).update({
             cusUid: Fire.shared.uid,
-            noteCus : input
+            noteCus : input,
+            book: 'Booked'
          })
-         database.collection("users").doc(Fire.shared.uid).update({
+          database.collection("users").doc(Fire.shared.uid).update({
             yourBooked: post.uid 
          })
          setIsVisible(false)
@@ -79,8 +80,8 @@ function MoreScreen({route, navigation}){
                 </TouchableOpacity>
                 
             </View>
-            <TouchableOpacity  style = {styles.button} onPress={()=> setIsVisible(true)}>
-               <Text style={{fontSize: 30}}>Book Now</Text>
+            <TouchableOpacity  style = {styles.button} onPress={()=> setIsVisible(true)} disabled = {post.book == 'Book Now' ? false : true }>
+               <Text style={{fontSize: 30}}>{post.book}</Text>
                 </TouchableOpacity>
                 <DialogInput isDialogVisible={isVisible}
                      title={"Confirm Book"}

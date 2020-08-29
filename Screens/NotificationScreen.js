@@ -50,7 +50,7 @@ function NotificationScreen({ navigation }) {
   return (
     <ScrollView>
        <View style = {styles.header}>
-         <TouchableOpacity onPress={() => navigation.navigate('Post', {idPost: post.uid})}>
+         <TouchableOpacity onPress={() => navigation.navigate('Post', {idPost: post.uid})} disabled = {post.posted ? false : true }>
         <View style={styles.time}>
            <Text style= {styles.yourpost} >Your Post </Text>
            <Text style={styles.timestamp}>{moment(post.timestamp).fromNow()}</Text>
@@ -86,20 +86,33 @@ function NotificationScreen({ navigation }) {
        </View>
        <View style = {styles.header}>
        <TouchableOpacity onPress={() => navigation.navigate('Post', {idPost: booked.uid})} disabled = {booked.uid ? false : true }>
+          <View>
           <View style={styles.time}>
            <Text style= {styles.yourpost} >Your Booked </Text>
-         
-        </View>
+           </View>
+          {
+            booked.uid ? (
+             <View>
 
-            <View style={{flexDirection: "row", justifyContent: 'space-around' }}>
-                 <Text  style={styles.post}>{booked.date}</Text>
-                 <Text  style={styles.post}>{booked.time}</Text>
-            </View>
-            
+              <View style={{flexDirection: "row", justifyContent: 'space-around' }}>
+              <Text  style={styles.post}>{booked.date}</Text>
+              <Text  style={styles.post}>{booked.time}</Text>
+              
+             </View>
              <Text style={styles.post}><Ionicons name="md-arrow-round-forward" size={25} color="#454D65" />  {booked.from}</Text>
             <Text style={styles.post}><Ionicons name="md-arrow-round-forward" size={25} color="#454D65" />  {booked.to} </Text>
+              </View>
+             
+            )
+            :(
+                  <View style={{flexDirection: "row", justifyContent: 'space-around' }}><Text>No booked</Text></View>
+            )
+          }
+            
+            
+            
+          </View>
          </TouchableOpacity>
-       
        </View>
            
    </ScrollView>     

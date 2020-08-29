@@ -17,6 +17,7 @@
       "**/*"
     ],
     "ios": {
+       "bundleIdentifier": "com.longddz.quagiangapp",
       "supportsTablet": true
     },
     "web": {

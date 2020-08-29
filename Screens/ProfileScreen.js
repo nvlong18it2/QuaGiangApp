@@ -5,15 +5,15 @@ require("firebase/firestore");
 import firebase from '../config'
 const database = firebase.firestore()
 function ProfileScreen({navigation}) {
-    const[uid, setUid] = useState(Fire.shared.uid)
+   
     const [profile, setProfile] = useState([]);
-    useEffect(() => {
-        database.collection('users').doc(uid)
-        .get().then(function(doc) {
+        useEffect(() => {
+        database.collection('users').doc(Fire.shared.uid)
+         .get().then(function(doc) {
            setProfile(doc.data());
           }    
         )  
-   }, [uid])
+   }, [])
   return (
     <View style = {styles.container}>
       <View style={{  justifyContent: 'center',

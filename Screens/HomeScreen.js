@@ -14,11 +14,10 @@ function HomeScreen({ navigation }) {
   const [post, setPost] = useState([]);
   const [isLoading, setLoading] = useState(true)
   useEffect(() => {
-     database.collection('users')
-     .onSnapshot((snapshot)=>
+     database.collection('users').where('posted', '==', true)
+     .onSnapshot(function(snapshot)
       {setPost(snapshot.docs.map((doc)=>doc.data()))
        setLoading(false)
-       
      }    
      )
 }, [])
@@ -66,13 +65,11 @@ function HomeScreen({ navigation }) {
                   
                  </View>
                  <Image source={{uri: post.image}} style={styles.postImage} resizeMode="cover"></Image>
-                 <View style={{flexDirection:"row", justifyContent: 'space-between'}}>
+                 <View style={{flexDirection:"row", justifyContent: 'space-around'}}>
                       <TouchableOpacity onPress={()=>Linking.openURL(`tel:${post.phone}`)}>
                           <Ionicons name="ios-call" size={25}  style={{marginRight: 16}} >Call</Ionicons>
                       </TouchableOpacity>
-                      <TouchableOpacity>
-                            <Ionicons name="ios-chatboxes" size={25} >Message</Ionicons>
-                      </TouchableOpacity>
+                     
                       <TouchableOpacity  >
                           <Text style={{fontSize: 25}}>{post.book}</Text>  
                       </TouchableOpacity>
