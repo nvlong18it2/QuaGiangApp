@@ -115,7 +115,7 @@ export default function  PostScreen({navigation}){
                   onPress={() => setFindcar(true)}
             />
              <CheckBox
-                 title='I have Car and find someone lucky'
+                 title='I have a motobike'
                   checked={!findcar}
                   onPress={() =>  setFindcar(false)}
             />

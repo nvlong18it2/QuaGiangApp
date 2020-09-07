@@ -40,14 +40,14 @@ function HomeScreen({ navigation }) {
                           </View>
                               <Ionicons name="ios-more" size={24} color="#73788B"></Ionicons>
                       </View>
-                  <View style={{flexDirection: "row" }}>
+                  <View style={{flexDirection: "row" , justifyContent: 'space-evenly'}}>
                   <CheckBox
                   size ={14}
                   title='Find Driver'
                   checked={post.findcar} />
                   <CheckBox
                   size ={14}
-                  title='Have Car'
+                  title='Have a motobike'
                   checked={!post.findcar} />
                   </View>
                       <Text style={styles.post}><Ionicons name="md-arrow-round-forward" size={25} color="#454D65" />  {post.from}</Text>
